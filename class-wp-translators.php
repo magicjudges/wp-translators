@@ -34,7 +34,7 @@ class WP_Translators
         if (!in_array($args[0], array('edit_post', 'edit_posts', 'edit_others_posts', 'edit_published_posts')))
             return $allcaps;
 
-        if ($allcaps['edit_others_posts'])
+        if (isset($allcaps['edit_others_posts']) && $allcaps['edit_others_posts'])
             return $allcaps;
 
         if (!isset($allcaps['publish_posts']) or !$allcaps['publish_posts'])
@@ -42,14 +42,16 @@ class WP_Translators
 
         $post = get_post($args[2]);
 
-        if ($args[1] == $post->post_author)
-            return $allcaps;
+		if ($post != null) {
+			if ($args[1] == $post->post_author)
+				return $allcaps;
 
-        $author = get_user_by('id', $post->post_author);
+			$author = get_user_by('id', $post->post_author);
 
-        if (in_array('translator', $author->roles)) {
-            $allcaps[$caps[0]] = true;
-        }
+			if (in_array('translator', $author->roles)) {
+				$allcaps[$caps[0]] = true;
+			}
+		}
 
         return $allcaps;
     }
