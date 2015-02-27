@@ -40,6 +40,10 @@ class WP_Translators
         if (!isset($allcaps['publish_posts']) or !$allcaps['publish_posts'])
             return $allcaps;
 
+		if(count($args) < 2) {
+			return $allcaps;
+		}
+
         $post = get_post($args[2]);
 
 		if ($post != null) {
